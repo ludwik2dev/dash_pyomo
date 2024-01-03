@@ -1,6 +1,6 @@
 # Custom
 .vscode/
-model/solvers/*.exe
+# model/solvers/*.exe
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

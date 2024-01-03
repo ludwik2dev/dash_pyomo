@@ -1,9 +1,13 @@
 import pyomo.environ as pyo
 import pyomo.gdp as gdp
-import pathlib
+import os
+from dotenv import load_dotenv
 
 from .uc_results import *
 import input
+
+
+load_dotenv() 
 
 
 def uc_model(units, dev=False):
@@ -151,7 +155,7 @@ def uc_model(units, dev=False):
 
     # ## Solve the model
     solver_name = 'cbc'  # Source: https://www.coin-or.org/download/binary/Cbc/?C=M;O=D
-    solver_exe_path = f'.\\model\\solvers\\{solver_name}.exe'
+    solver_exe_path = os.environ.get("SOLVERPATH")
     solver = pyo.SolverFactory(solver_name, executable=solver_exe_path)
     results = solver.solve(model) ## .write()
 

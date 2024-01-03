@@ -9,7 +9,7 @@ import pyomo.environ as pyo
 import math
 
 import input
-from model.uc_model import uc_model
+from uc_model import uc_model
 
 
 min_lat, max_lat = (25, 37)

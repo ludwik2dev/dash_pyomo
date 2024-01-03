@@ -151,7 +151,7 @@ def uc_model(units, dev=False):
 
     # ## Solve the model
     solver_name = 'cbc'  # Source: https://www.coin-or.org/download/binary/Cbc/?C=M;O=D
-    solver_exe_path = pathlib.Path(__file__).parent.resolve() / 'solvers' /  f'{solver_name}.exe'
+    solver_exe_path = f'.\\model\\solvers\\{solver_name}.exe'
     solver = pyo.SolverFactory(solver_name, executable=solver_exe_path)
     results = solver.solve(model) ## .write()
 

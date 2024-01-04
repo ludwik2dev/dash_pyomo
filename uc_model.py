@@ -1,10 +1,14 @@
+import os
 import pyomo.environ as pyo
 import pyomo.gdp as gdp
+from dotenv import load_dotenv
 
 import input
 
 
 def uc_model(units, dev=False):
+
+    load_dotenv()
 
     # ## Constants
     HOURS = [t for t in range(1, 25)]
@@ -148,8 +152,15 @@ def uc_model(units, dev=False):
     model.b_sum = pyo.Constraint( model.batteries, model.hours, rule=lambda m, battery, hour: m.b_power[battery, hour] == m.b_load[battery, hour] + m.b_reload[battery, hour] )
 
     # ## Solve the model
-    solver_name = 'cbc'  # Source: https://www.coin-or.org/download/binary/Cbc/?C=M;O=D
-    solver = pyo.SolverFactory(solver_name, executable='cbc.exe')
+    if os.environ.get("MODE") == 'LOCAL':
+        solvername = 'cbc'
+        solver = pyo.SolverFactory(solvername, executable='cbc.exe')
+    elif os.environ.get("MODE") == 'PRODUCTION':
+        solvername = 'glpk'
+        solver = pyo.SolverFactory(solvername)
+    else:
+        raise Exception('MODE in env vars was not supplied.')
+
     results = solver.solve(model) ## .write()
 
     # ## Optimalization results 
